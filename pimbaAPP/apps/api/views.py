@@ -10,8 +10,7 @@ def predecir_imagen(request):
     if request.method == 'POST':
         imagen = request.POST['imagen']
         handle_uploaded_file(imagen)
-        print(imagen)
-        resultados = {'status': 'OK'}
+        resultados = predecir(imagen)
         return JsonResponse(resultados)
     return JsonResponse({'mensaje': 'error'})
 
