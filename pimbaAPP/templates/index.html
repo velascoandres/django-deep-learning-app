@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+{% endblock %}
+{% block contenido %}
+    <div class="row" style="margin-top: 35px">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 border">
+            <form id="formulario" enctype="multipart/form-data">
+                <h1>Sube una imagen para predecir</h1>
+                <div class="form-group">
+                     {% csrf_token %}
+                    <input id="imagen" name="imagen" accept="image/*" alt="subir-imagen"  type="file" required>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button id="predecir" type="submit" class="p-2 btn btn-info" style="margin-top: 15px">Predecir</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row" style="margin-top: 25px">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="resultados"></div>
+        <div class="col-md-2"></div>
+    </div>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $('#formulario').on('submit',
+            (e)=>{
+                e.preventDefault();
+                mostrar_resultados();
+                let datos = new FormData();
+                datos.append('imagen', $('input[type=file]')[0].files[0],'imagen');
+                $.ajax({
+                    url         : '/api/v1/predecir',
+                    data        : datos,
+                    type        : 'POST',
+                    processData: false,
+                    contentType: false,
+                    success     :
+                        (data)=>{
+                            console.log(data);
+                        }
+                });
+            }
+        );
+        function mostrar_resultados() {
+            let cuadro_resultados = $('#resultados');
+            cuadro_resultados.attr('class','border');
+            cuadro_resultados.append('<h1>Resultados</h1>')
+        }
+    </script>
+{% endblock %}
