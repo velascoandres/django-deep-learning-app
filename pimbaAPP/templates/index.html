@@ -33,7 +33,7 @@
         $('#formulario').on('submit',
             (e)=>{
                 e.preventDefault();
-                mostrar_resultados();
+                mostrar_animacion_esperar_resultados();
                 let datos = new FormData();
                 datos.append('imagen', $('input[type=file]')[0].files[0],'imagen');
                 $.ajax({
@@ -45,14 +45,47 @@
                     success     :
                         (data)=>{
                             console.log(data);
+                            mostrar_resultados(data)
                         }
                 });
             }
         );
-        function mostrar_resultados() {
+        function mostrar_animacion_esperar_resultados() {
             let cuadro_resultados = $('#resultados');
+            cuadro_resultados.empty();
             cuadro_resultados.attr('class','border');
-            cuadro_resultados.append('<h1>Resultados</h1>')
+            cuadro_resultados.append('<h1>Resultados</h1>');
+            mostrar_animacion_cargando();
         }
+
+        function mostrar_resultados(data) {
+            remover_animacion_cargando();
+            $('#resultados').append(render_resultados(data))
+        }
+
+        function render_resultados(data) {
+            return `<image src=${data.imagen} width="128" height="128"/><ul><li>Descripcion: ${data.descripcion}</li><li>Porcentaje: ${data.precision}</li></ul>`
+        }
+
+        function remover_animacion_cargando() {
+            $("#loader").remove();
+        }
+        function mostrar_animacion_cargando() {
+        if ($("#loader")){
+            remover_animacion_cargando();
+        }
+        $("#resultados").append('<div id="loader" class="d-flex justify-content-center">'+
+            '<div class="p-2">'+
+            '<div  class="spinner-grow" role="status">'+
+            '<span class="sr-only">Loading...</span>'+
+            '</div><div  class="spinner-grow" role="status">'+
+            '<span class="sr-only">Loading...</span>'+
+            '</div>' +
+            '<div  class="spinner-grow" role="status">'+
+            '<span class="sr-only">Loading...</span>'+
+            '</div>' +
+            '</div>' +
+            '</div>');
+    }
     </script>
 {% endblock %}

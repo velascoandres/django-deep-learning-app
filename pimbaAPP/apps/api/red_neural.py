@@ -1,7 +1,10 @@
+
+
 def predecir(ruta_imagen='glue_sticks.jpg'):
     from keras.applications.resnet50 import ResNet50
     from keras.preprocessing import image
     from keras.applications.resnet50 import preprocess_input, decode_predictions
+    from keras import backend as K
     import numpy as np
 
     model = ResNet50(weights='imagenet')
@@ -12,6 +15,7 @@ def predecir(ruta_imagen='glue_sticks.jpg'):
     x = preprocess_input(x)
 
     preds = model.predict(x)
+    K.clear_session()
     # decode the results into a list of tuples (class, description, probability)
     # (one such list for each sample in the batch)
     resultados = decode_predictions(preds, top=3)[0][0]
@@ -19,5 +23,6 @@ def predecir(ruta_imagen='glue_sticks.jpg'):
     presicion = resultados[2]
     return {
         'descripcion': descripcion,
-        'presicion': presicion*100
+        'precision': presicion*100,
+        'imagen': str(img_path)
     }

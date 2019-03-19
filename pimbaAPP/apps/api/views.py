@@ -11,10 +11,9 @@ from django.http import JsonResponse
 @csrf_exempt
 def predecir_imagen(request):
     if request.method == 'POST':
-        print("datos"+ str(request.FILES))
         imagen = request.FILES['imagen']
-        handle_uploaded_file(imagen)
-        resultados = predecir(imagen)
+        ruta_imagen = handle_uploaded_file(imagen)
+        resultados = predecir(ruta_imagen)
         return JsonResponse(resultados)
     return JsonResponse({'mensaje': 'error'})
 
