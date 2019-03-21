@@ -21,7 +21,10 @@
     </div>
     <div class="row" style="margin-top: 25px">
         <div class="col-md-2"></div>
-        <div class="col-md-8" id="resultados"></div>
+        <div class="col-md-8" >
+            <div class="d-flex justify-content-center" id="resultados" style="padding-bottom: 25px">
+            </div>
+        </div>
         <div class="col-md-2"></div>
     </div>
 
@@ -54,7 +57,7 @@
             let cuadro_resultados = $('#resultados');
             cuadro_resultados.empty();
             cuadro_resultados.attr('class','border');
-            cuadro_resultados.append('<h1>Resultados</h1>');
+            cuadro_resultados.append('<h1 class="p-2">Resultados:</h1>');
             mostrar_animacion_cargando();
         }
 
@@ -64,7 +67,16 @@
         }
 
         function render_resultados(data) {
-            return `<image src=${data.imagen} width="128" height="128"/><ul><li>Descripcion: ${data.descripcion}</li><li>Porcentaje: ${data.precision}</li></ul>`
+            return `<div class="d-flex flex-row justify-content-center">
+                        <div class="card class="p-2" style="width: 18rem;">
+                           <img class="card-img-top" src=${data.imagen} alt="Card image cap">
+                           <div class="card-body bg-dark text-white">
+                                <h5 class="card-title">Prediccion</h5>
+                                <p class="card-text">La imagen es: ${data.descripcion}</p>
+                                <p class="card-text">Confiabilidad: ${data.precision.toFixed(2)}%</p>
+                            </div>
+                        </div>
+                    </div>`
         }
 
         function remover_animacion_cargando() {
@@ -74,7 +86,7 @@
         if ($("#loader")){
             remover_animacion_cargando();
         }
-        $("#resultados").append('<div id="loader" class="d-flex justify-content-center">'+
+        $("#resultados").append('<div id="loader" class="p-2 d-flex justify-content-center">'+
             '<div class="p-2">'+
             '<div  class="spinner-grow" role="status">'+
             '<span class="sr-only">Loading...</span>'+
