@@ -10,26 +10,30 @@
 {% block contenido %}
     <div class="row" style="margin-top: 35px">
         <div class="col-md-2"></div>
-        <div class="col-md-8 border">
-                <div class="row" style="background-color: rgba(0, 0, 0, 0.7);">
+        <div class="col-md-8 ">
+                <div class="row">
                     <div class="col-md-1"></div>
-                    <div class="col-md-10">
+                    <div class="col-md-10" style="background-color: rgba(0, 0, 0, 0.7);">
                         <h1 class="text-white">Sube una imagen para predecir</h1>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
-            <form id="formulario" enctype="multipart/form-data" style="margin-top: 20px">
-                <div class="form-group">
-                     {% csrf_token %}
-                    <input id="imagen" name="imagen" accept="image/*" alt="subir-imagen"  type="file" required>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10" style="background-color: rgba(34,111,107,0.7);">
+                            <form id="formulario" enctype="multipart/form-data" style="margin-top: 20px">
+                                <div class="form-group text-white">
+                                    <input id="imagen" name="imagen" accept="image/*" alt="subir-imagen"  type="file" required>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button id="predecir" type="submit" class="p-3 btn btn-danger" style="margin-top: 15px">Predecir</button>
+                                </div>
+                            </form>
+                        <div  style="padding-bottom: 25px;" id="resultados"></div>
+                    </div>
+                    <div class="col-md1"></div>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <button id="predecir" type="submit" class="p-3 btn btn-danger" style="margin-top: 15px">Predecir</button>
-                </div>
-            </form>
-            <div  style="padding-bottom: 25px;" id="resultados">
 
-            </div>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -64,7 +68,7 @@
             cuadro_resultados.empty();
             cuadro_resultados.append('<div class="row">' +
                 '<div class="col-md-1"></div>' +
-                '<div class="col-md-10"><h1 class="titulo">Resultados:</h1></div>' +
+                '<div class="col-md-10" id="analisis"><h1 class="titulo text-white">Resultados:</h1></div>' +
                 '<div class="col-md-1"></div></div>');
             mostrar_animacion_cargando();
         }
@@ -72,7 +76,7 @@
         function mostrar_resultados(data) {
             remover_animacion_cargando();
 
-            $('#resultados').append(render_resultados(data))
+            $('#analisis').append(render_resultados(data))
         }
 
         function render_resultados(data) {
