@@ -46,6 +46,7 @@
         $('#formulario').on('submit',
             (e)=>{
                 e.preventDefault();
+                $('#predecir').attr("disabled", true);
                 mostrar_animacion_esperar_resultados();
                 let datos = new FormData();
                 datos.append('imagen', $('input[type=file]')[0].files[0],'imagen');
@@ -57,12 +58,16 @@
                     contentType: false,
                     success     :
                         (data)=>{
-                            console.log(data);
+                            $('#predecir').attr("disabled", false);
                             mostrar_resultados(data)
                         }
                 });
             }
         );
+        $('#imagen').on('change',
+            ()=>{
+                $('#resultados').empty();
+        });
         function mostrar_animacion_esperar_resultados() {
             let cuadro_resultados = $('#resultados');
             cuadro_resultados.empty();
@@ -75,7 +80,6 @@
 
         function mostrar_resultados(data) {
             remover_animacion_cargando();
-
             $('#analisis').append(render_resultados(data))
         }
 
